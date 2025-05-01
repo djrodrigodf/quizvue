@@ -63,9 +63,11 @@ const resumo = ref<null | {
 // Verifica se está online usando HTTP simples (sem HTTPS)
 async function checarOnline() {
   try {
-    await fetch('http://httpbin.org/get', { method: 'GET' })
+    await fetch('https://www.google.com.br', { method: 'GET' })
+    console.log('tem internet');
     estaOnline.value = true
   } catch {
+    console.log('n tem internet');
     estaOnline.value = false
   }
 }
