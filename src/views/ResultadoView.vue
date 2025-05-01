@@ -41,14 +41,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { enviarResultado } from '@/services/supabase'
 
-// Router
 const route = useRoute()
 const router = useRouter()
 
-// Estado de conectividade
 const estaOnline = ref(false)
 
-// Dados do resumo
 const resumo = ref<null | {
   id: string
   resultado: {
@@ -60,19 +57,24 @@ const resumo = ref<null | {
   erros: number
 }>(null)
 
-// Verifica se está online usando HTTP simples (sem HTTPS)
-async function checarOnline() {
+// Verificação real de internet via fetch HTTP
+async function temInternetDeVerdade(): Promise<boolean> {
   try {
-    await fetch('https://www.google.com.br', { method: 'GET' })
-    console.log('tem internet');
-    estaOnline.value = true
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 3000)
+
+    await fetch("http://httpbin.org/get", {
+      method: "GET",
+      signal: controller.signal
+    })
+
+    clearTimeout(timeout)
+    return true
   } catch {
-    console.log('n tem internet');
-    estaOnline.value = false
+    return false
   }
 }
 
-// Carrega os dados do resultado salvos no localStorage
 function carregarResultado() {
   const id = route.query.id as string
   const raw = localStorage.getItem(`quiz_${id}`)
@@ -90,18 +92,15 @@ function carregarResultado() {
     erros
   }
 
-  // Sincroniza automaticamente se estiver online
   if (estaOnline.value) {
     enviarResultado(dados)
   }
 }
 
-// Volta para a tela inicial
 function voltarInicio() {
   router.push('/')
 }
 
-// Sincroniza todos os resultados offline armazenados
 async function sincronizarPendentes() {
   const chaves = Object.keys(localStorage).filter(k => k.startsWith('quiz_'))
   let enviados = 0
@@ -122,9 +121,8 @@ async function sincronizarPendentes() {
   alert(`${enviados} resultado(s) sincronizado(s) com sucesso!`)
 }
 
-// Executa ao montar componente
 onMounted(async () => {
-  await checarOnline()
+  estaOnline.value = await temInternetDeVerdade()
   carregarResultado()
 })
 </script>
