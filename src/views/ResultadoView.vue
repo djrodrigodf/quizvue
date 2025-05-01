@@ -63,7 +63,7 @@ async function temInternetDeVerdade(): Promise<boolean> {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 3000)
 
-    await fetch("http://httpbin.org/get", {
+    await fetch("https://rest.ensembl.org/info/ping?content-type=application/json", {
       method: "GET",
       signal: controller.signal
     })
@@ -124,6 +124,7 @@ async function sincronizarPendentes() {
 onMounted(async () => {
   estaOnline.value = await temInternetDeVerdade()
   carregarResultado()
+  console.log('carregou ', estaOnline.value);
 })
 </script>
 
