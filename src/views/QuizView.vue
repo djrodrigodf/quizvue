@@ -23,7 +23,7 @@
             }"
           >
             <img
-              class="w-28 h-28 object-contain mx-auto"
+              class="object-contain mx-auto"
               :src="placeholderImg[i]"
               :alt="resposta"
             />
@@ -123,8 +123,8 @@ onMounted(() => {
 
 // imagens genéricas para simular perfumes
 const placeholderImg = [
-  'https://placehold.co/100x100?text=1',
-  'https://placehold.co/100x100?text=2',
-  'https://placehold.co/100x100?text=3'
+  'https://placehold.co/70x70?text=1',
+  'https://placehold.co/70x70?text=2',
+  'https://placehold.co/70x70?text=3'
 ]
 </script>

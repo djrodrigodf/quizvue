@@ -1,8 +1,8 @@
 <template>
-  <section class="bg-white dark:bg-gray-900">
+  <section class="bg-green-100">
     <div class="start-screen">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-gray-900 dark:text-white">Bem-vindo ao Quiz do Boticário!</h2>
-      <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800" @click="startQuiz">Iniciar Quiz</button>
+      <button class="mt-10 bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition" @click="startQuiz">Iniciar Quiz</button>
     </div>
   </section>
 </template>

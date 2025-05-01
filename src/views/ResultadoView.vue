@@ -1,43 +1,54 @@
 <template>
-  <div class="resultado">
-    <h2>Resultado do Quiz</h2>
+  <section class="min-h-screen bg-green-100 py-8 px-4 text-center">
+    <div class="resultado">
+      <h2>Resultado do Quiz</h2>
 
-    <div v-if="resumo">
-      <p><strong>ID:</strong> {{ resumo.id }}</p>
-      <p><strong>Acertos:</strong> {{ resumo.acertos }}</p>
-      <p><strong>Erros:</strong> {{ resumo.erros }}</p>
+      <div v-if="resumo">
+        <p><strong>Acertos:</strong> {{ resumo.acertos }}</p>
+        <p><strong>Erros:</strong> {{ resumo.erros }}</p>
 
-      <ul>
-        <li v-for="(item, i) in resumo.resultado" :key="i">
-          Pergunta {{ i + 1 }}:
-          <span :class="{ certo: item.acertou, errado: !item.acertou }">
-            {{ item.acertou ? 'Acertou ✅' : 'Errou ❌' }}
-          </span>
-        </li>
-      </ul>
+        <ul>
+          <li v-for="(item, i) in resumo.resultado" :key="i">
+            Pergunta {{ i + 1 }}:
+            <span :class="{ certo: item.acertou, errado: !item.acertou }">
+              {{ item.acertou ? 'Acertou' : 'Errou' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <button
+        class="mt-10 bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition"
+        @click="voltarInicio"
+      >
+        Reiniciar Quiz
+      </button>
+
+      <div v-if="estaOnline" style="margin-top: 20px">
+        <button
+          class="mt-10 bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition"
+          @click="sincronizarPendentes"
+        >
+          Sincronizar todos os resultados
+        </button>
+      </div>
     </div>
-
-    <button @click="voltarInicio">Reiniciar Quiz</button>
-
-    <div v-if="estaOnline" style="margin-top: 20px">
-      <button @click="sincronizarPendentes">Sincronizar todos os resultados</button>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { enviarResultado } from '@/services/supabase'
 
+// Router
 const route = useRoute()
 const router = useRouter()
 
-const estaOnline = ref(navigator.onLine)
+// Estado de conectividade
+const estaOnline = ref(false)
 
-window.addEventListener('online', () => (estaOnline.value = true))
-window.addEventListener('offline', () => (estaOnline.value = false))
-
+// Dados do resumo
 const resumo = ref<null | {
   id: string
   resultado: {
@@ -49,15 +60,24 @@ const resumo = ref<null | {
   erros: number
 }>(null)
 
+// Verifica se está online usando HTTP simples (sem HTTPS)
+async function checarOnline() {
+  try {
+    await fetch('http://httpbin.org/get', { method: 'GET' })
+    estaOnline.value = true
+  } catch {
+    estaOnline.value = false
+  }
+}
+
+// Carrega os dados do resultado salvos no localStorage
 function carregarResultado() {
   const id = route.query.id as string
   const raw = localStorage.getItem(`quiz_${id}`)
-
   if (!raw) return
 
   const dados = JSON.parse(raw)
   const resultado = dados.resultado
-
   const acertos = resultado.filter((r: any) => r.acertou).length
   const erros = resultado.length - acertos
 
@@ -68,16 +88,18 @@ function carregarResultado() {
     erros
   }
 
-  // Sincroniza automático se online
+  // Sincroniza automaticamente se estiver online
   if (estaOnline.value) {
     enviarResultado(dados)
   }
 }
 
+// Volta para a tela inicial
 function voltarInicio() {
   router.push('/')
 }
 
+// Sincroniza todos os resultados offline armazenados
 async function sincronizarPendentes() {
   const chaves = Object.keys(localStorage).filter(k => k.startsWith('quiz_'))
   let enviados = 0
@@ -98,7 +120,11 @@ async function sincronizarPendentes() {
   alert(`${enviados} resultado(s) sincronizado(s) com sucesso!`)
 }
 
-carregarResultado()
+// Executa ao montar componente
+onMounted(async () => {
+  await checarOnline()
+  carregarResultado()
+})
 </script>
 
 <style scoped>
