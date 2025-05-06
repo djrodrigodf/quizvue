@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#CFE3CF] flex flex-col justify-between px-6 py-10 font-sans">
+  <div class="bg-[#CFE3CF] flex flex-col justify-between px-6 py-10 font-sans">
     <!-- Cabeçalho -->
     <div class="flex justify-between mb-10 items-center">
      <div>
@@ -44,7 +44,7 @@
               'border-transparent hover:border-green-300': respostasSelecionadas[index] !== resposta.nome
             }"
           >
-            <img class="w-44 h-44 object-contain" :src="resposta.imagem" :alt="resposta.nome" />
+            <img class="w-25 h-25 object-contain" :src="resposta.imagem" :alt="resposta.nome" />
           </div>
         </div>
       </div>
