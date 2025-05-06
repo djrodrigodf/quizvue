@@ -1,50 +1,59 @@
 <template>
-  <section class="min-h-screen bg-green-100 py-8 px-4 text-center">
-    <div class="resultado">
-      <h2>Resultado do Quiz</h2>
+  <div class="min-h-screen bg-[#CFE3CF]">
 
-      <div v-if="resumo">
-        <p><strong>Acertos:</strong> {{ resumo.acertos }}</p>
-        <p><strong>Erros:</strong> {{ resumo.erros }}</p>
-
-        <ul>
-          <li v-for="(item, i) in resumo.resultado" :key="i">
-            Pergunta {{ i + 1 }}:
-            <span :class="{ certo: item.acertou, errado: !item.acertou }">
-              {{ item.acertou ? 'Acertou' : 'Errou' }}
-            </span>
-          </li>
-        </ul>
+    <div class="flex justify-between py-10 px-8">
+      <div class="bg-[#547D5C] text-white px-10 py-6 rounded mb-4 text-xl font-bold tracking-wider">
+        DESCUBRA AS FRAGRÂNCIAS
       </div>
-
-      <button
-        class="mt-10 bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition"
-        @click="voltarInicio"
-      >
-        Reiniciar Quiz
-      </button>
-
-      <div v-if="estaOnline" style="margin-top: 20px">
-        <button
-          class="mt-10 bg-green-700 text-white px-8 py-3 rounded-full hover:bg-green-800 transition"
-          @click="sincronizarPendentes"
-        >
-          Sincronizar todos os resultados
-        </button>
+      <div>
+        <img src="@/assets/logo-verde.png" alt="ícone perfume" />
       </div>
     </div>
-  </section>
+
+    <div class="text-[#2E4D3A] flex flex-col items-center justify-center px-4 text-center font-sans">
+
+      <h1 class="text-5xl font-medium mb-4">RESULTADO FINAL</h1>
+
+      <div class="text-8xl font-bold mb-6">{{ resumo?.acertos }} / {{ total }}</div>
+
+      <div class="text-3xl font-semibold leading-snug mb-4 whitespace-pre-line" v-if="mensagem">
+        {{ mensagem }}
+      </div>
+
+      <p class="text-2xl mt-2">
+        Obrigado por participar,<br />
+        escolha seu brinde com o promotor.
+      </p>
+
+      <button
+        v-if="mostrarBotao"
+        @click="voltarInicio"
+        class="mt-10 bg-[#2E4D3A] gap-6 flex justify-center text-2xl items-center text-white px-6 py-3 rounded hover:bg-[#1f3327] transition"
+      >
+        <span>JOGAR NOVAMENTE</span> <span class="text-right">▶</span>
+      </button>
+
+      <button
+        v-if="estaOnline"
+        @click="sincronizarPendentes"
+        class="mt-6 bg-[#2E4D3A] text-white text-lg px-6 py-3 rounded hover:bg-[#1f3327] transition"
+      >
+        SINCRONIZAR TODOS OS RESULTADOS
+      </button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { enviarResultado } from '@/services/supabase'
 
 const route = useRoute()
 const router = useRouter()
 
 const estaOnline = ref(false)
+const mostrarBotao = ref(false)
 
 const resumo = ref<null | {
   id: string
@@ -57,7 +66,29 @@ const resumo = ref<null | {
   erros: number
 }>(null)
 
-// Verificação real de internet via fetch HTTP
+const total = computed(() => resumo.value?.resultado.length ?? 0)
+
+const mensagem = computed(() => {
+  if (!resumo.value) return ''
+  const acertos = resumo.value.acertos
+  switch (acertos) {
+    case 0:
+      return `Puxa... Que tal conhecer mais sobre nossas fragrâncias?\nExperimente essas e outras na nossa loja.`
+    case 1:
+      return `Que legal, você nos conhece!\nTemos essas e muitas outras fragrâncias para conhecer.\nPasse na nossa loja e experimente.`
+    case 2:
+      return `UAU! Você é quase um expert!\nTemos essas e muitas outras fragrâncias para conhecer.\nPasse na nossa loja e experimente.`
+    case 3:
+      return `Parabéns! Você é um especialista!\nExperimente essas e outras fragrâncias na nossa loja.`
+    default:
+      return ''
+  }
+})
+
+function voltarInicio() {
+  router.push('/')
+}
+
 async function temInternetDeVerdade(): Promise<boolean> {
   try {
     const controller = new AbortController()
@@ -73,32 +104,6 @@ async function temInternetDeVerdade(): Promise<boolean> {
   } catch {
     return false
   }
-}
-
-function carregarResultado() {
-  const id = route.query.id as string
-  const raw = localStorage.getItem(`quiz_${id}`)
-  if (!raw) return
-
-  const dados = JSON.parse(raw)
-  const resultado = dados.resultado
-  const acertos = resultado.filter((r: any) => r.acertou).length
-  const erros = resultado.length - acertos
-
-  resumo.value = {
-    id: dados.id,
-    resultado,
-    acertos,
-    erros
-  }
-
-  if (estaOnline.value) {
-    enviarResultado(dados)
-  }
-}
-
-function voltarInicio() {
-  router.push('/')
 }
 
 async function sincronizarPendentes() {
@@ -121,43 +126,30 @@ async function sincronizarPendentes() {
   alert(`${enviados} resultado(s) sincronizado(s) com sucesso!`)
 }
 
+function carregarResultado() {
+  const id = route.query.id as string
+  const raw = localStorage.getItem(`quiz_${id}`)
+  if (!raw) return router.push('/')
+
+  const dados = JSON.parse(raw)
+  const resultado = dados.resultado
+  const acertos = resultado.filter((r: any) => r.acertou).length
+  const erros = resultado.length - acertos
+
+  resumo.value = {
+    id: dados.id,
+    resultado,
+    acertos,
+    erros
+  }
+
+
+
+  mostrarBotao.value = true
+}
+
 onMounted(async () => {
   estaOnline.value = await temInternetDeVerdade()
   carregarResultado()
-  console.log('carregou ', estaOnline.value);
 })
 </script>
-
-<style scoped>
-.resultado {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  text-align: center;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-li {
-  margin: 8px 0;
-}
-
-.certo {
-  color: green;
-}
-
-.errado {
-  color: red;
-}
-
-button {
-  margin-top: 30px;
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
-}
-</style>

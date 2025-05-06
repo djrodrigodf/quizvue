@@ -6,7 +6,11 @@ export default {
   ],
   safelist: [{ pattern: /.*/ }],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['DomaineSans', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
