@@ -1,10 +1,10 @@
 <template>
   <div class="bg-[#CFE3CF] flex flex-col justify-between px-6 py-10 font-sans">
     <!-- Cabeçalho -->
-    <div class="flex justify-between mb-10 items-center">
+    <div class="flex justify-between mb-2 items-center">
      <div>
        <div class="bg-[#547D5C] text-white text-center
-       px-6 py-4 rounded mb-2 text-xl tracking-wider">
+       px-6 py-2 rounded mb-2 text-xl tracking-wider">
          DESCUBRA AS FRAGRÂNCIAS
        </div>
        <span >
@@ -27,7 +27,7 @@
           <div class="w-10 flex items-center justify-center bg-[#547D5C] text-white text-xl font-bold rounded" style="height: 100%">
             {{ index + 1 }}
           </div>
-          <div class="text-[14px] font-medium text-[#2E4D3A] text-left leading-tight whitespace-pre-line">
+          <div class="text-[12px] font-medium text-[#2E4D3A] text-left leading-tight whitespace-pre-line">
             {{ pergunta.texto }}
           </div>
         </div>
@@ -51,7 +51,7 @@
     </div>
 
     <!-- Botão -->
-    <div class="text-right mt-6">
+    <div class="text-right mt-6" v-if="todasRespondidas">
       <button
         @click="validarRespostas"
         class="bg-[#2E4D3A] text-white px-4 py-3 rounded hover:bg-[#1f3327] transition"
