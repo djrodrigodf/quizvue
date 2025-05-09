@@ -111,7 +111,7 @@ const imagens = {
 
 const perguntas = ref<Pergunta[]>([
   {
-    texto: 'AR DA MONTANHA\nCÍTRICO E NATURAL\nMENTA COM NOTAS VERDES E SÂNDALO',
+    texto: 'Sinta o frescor floral das delicadas pétalas do Jasmim Air, que dançam no ar nas manhãs de verão, espalhando sua fragrância irresistível.',
     respostas: [
       { nome: 'Floratta Rose', imagem: imagens.pergunta1.erradas[0] },
       { nome: 'Arbo', imagem: imagens.pergunta1.correta },
@@ -121,7 +121,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'FLORAL FRESCO\nNOTAS AMADEIRADAS CREMOSAS\nGARDÊNIA',
+    texto: 'Todo o fascínio e o encanto do clássico em uma fragrância reinventada: mais intensa e mais envolvente. O verdadeiro segredo de uma produção digna de uma estrela.',
     respostas: [
       { nome: 'Quasar', imagem: imagens.pergunta2.erradas[0] },
       { nome: 'Floratta Red', imagem: imagens.pergunta2.correta },
@@ -131,7 +131,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'ADOCIADO\nBAUNILHA\nSEDUÇÃO E DIVERSÃO',
+    texto: 'É uma fragrância feminina marcante, jovem e envolvente que combina com mulheres de atitude que não passam vontade no romance.',
     respostas: [
       { nome: 'Lily', imagem: imagens.pergunta3.erradas[0] },
       { nome: 'Egeo Dolce', imagem: imagens.pergunta3.correta },
