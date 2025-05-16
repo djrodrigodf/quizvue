@@ -111,7 +111,7 @@ const imagens = {
 
 const perguntas = ref<Pergunta[]>([
   {
-    texto: 'Sinta o frescor floral das delicadas pétalas do Jasmim Air, que dançam no ar nas manhãs de verão, espalhando sua fragrância irresistível.',
+    texto: 'Sinta a explosão fresca e aromática da Hortelã e da Sálvia, combinada à potência amadeirada do Vetiver.',
     respostas: [
       { nome: 'Floratta Rose', imagem: imagens.pergunta1.erradas[0] },
       { nome: 'Arbo', imagem: imagens.pergunta1.correta },
@@ -121,7 +121,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'Todo o fascínio e o encanto do clássico em uma fragrância reinventada: mais intensa e mais envolvente. O verdadeiro segredo de uma produção digna de uma estrela.',
+    texto: 'Ora fresco, suculento, doce, explosivo e até confortável, é a primeira fragrância do mundo com o Cogumelo Boletus Edulis*, de origem chinesa.',
     respostas: [
       { nome: 'Quasar', imagem: imagens.pergunta2.erradas[0] },
       { nome: 'Floratta Red', imagem: imagens.pergunta2.correta },
@@ -131,7 +131,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'É uma fragrância feminina marcante, jovem e envolvente que combina com mulheres de atitude que não passam vontade no romance.',
+    texto: 'Sensualidade, frescor e leveza no seu dia a dia. Uma releitura mais vibrante, floral e suculenta da Maçã de Vermont. Feminilidade da gardênia e sofisticação de notas amadeiradas cremosas.',
     respostas: [
       { nome: 'Lily', imagem: imagens.pergunta3.erradas[0] },
       { nome: 'Egeo Dolce', imagem: imagens.pergunta3.correta },
