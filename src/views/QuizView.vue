@@ -111,7 +111,7 @@ const imagens = {
 
 const perguntas = ref<Pergunta[]>([
   {
-    texto: 'Sinta a explosão fresca e aromática da Hortelã e da Sálvia, combinada à potência amadeirada do Vetiver.',
+    texto: 'Uma mistura irresistível que contrasta a sensualidade das madeiras secas e toques orientais, garantindo uma fragrância única, inovadora e deliciosa.',
     respostas: [
       { nome: 'Floratta Rose', imagem: imagens.pergunta1.erradas[0] },
       { nome: 'Arbo', imagem: imagens.pergunta1.correta },
@@ -121,7 +121,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'Ora fresco, suculento, doce, explosivo e até confortável, é a primeira fragrância do mundo com o Cogumelo Boletus Edulis*, de origem chinesa.',
+    texto: 'A fragrância ideal para o homem moderno e confiante, marcando presença na hora da conquista.',
     respostas: [
       { nome: 'Quasar', imagem: imagens.pergunta2.erradas[0] },
       { nome: 'Floratta Red', imagem: imagens.pergunta2.correta },
@@ -131,7 +131,7 @@ const perguntas = ref<Pergunta[]>([
     respostasEmbaralhadas: []
   },
   {
-    texto: 'Sensualidade, frescor e leveza no seu dia a dia. Uma releitura mais vibrante, floral e suculenta da Maçã de Vermont. Feminilidade da gardênia e sofisticação de notas amadeiradas cremosas.',
+    texto: 'Ingredientes que despertam prazer, sensualidade e mistério. Efeito licoroso e inebriante combinado à indulgência das Frutas Vermelhas, a sofisticação do Jasmim, envelopado com notas de Sândalo.',
     respostas: [
       { nome: 'Lily', imagem: imagens.pergunta3.erradas[0] },
       { nome: 'Egeo Dolce', imagem: imagens.pergunta3.correta },
